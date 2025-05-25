@@ -43,6 +43,7 @@ export class AwsS3Service {
 
     try {
       const result = await upload.done();
+      console.log('result--->', result)
       return result;
     } catch (error) {
       console.error('Error during file upload:', error);

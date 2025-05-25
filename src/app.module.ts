@@ -5,7 +5,8 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 
 import { UserModule } from '~/modules/user/user.module';
-import { AuthModule } from './modules/auth/auth.module';
+import { AuthModule } from '~/modules/auth/auth.module';
+import { FileModule } from '~/modules/file/file.module';
 
 import { AllExceptionsFilter } from '~/common/filters/any.exception.filter';
 import { JSONTransformerInterceptor } from '~/common/interceptors/json.transformer.interceptor';
@@ -26,6 +27,7 @@ import configuration from '~/processors/app-config/configuration';
     AWSModule,
     UserModule,
     AuthModule,
+    FileModule
   ],
   controllers: [AppController],
   providers: [{

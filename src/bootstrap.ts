@@ -5,6 +5,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 
 import fastifyCookie from '@fastify/cookie';
 import middie from '@fastify/middie';
+import multipart from '@fastify/multipart';
 
 import { CustomLoggerService } from '~/processors/logger/logger.service';
 import { CorsMiddleware } from '~/common/middlewares/cors.middleware';
@@ -34,6 +35,9 @@ export async function bootstrap() {
 
   // Register requestId middleware (now `.use` is available)
   app.use(requestIdMiddleware);
+
+  await app.register(multipart); // 👈 Needed to handle file uploads
+
 
   // Get services
   const configService = app.get(ConfigService);

@@ -1,46 +1,74 @@
-// Prisma Schema File
-// @module schema
-// Defines the Prisma schema configuration for the application.
-// This file includes the generator and datasource configurations necessary for Prisma to interact with the database.
-// @see https://pris.ly/d/prisma-schema for Prisma Schema Documentation
-// @see https://pris.ly/cli/accelerate-init for Prisma Accelerate for performance and scalability improvements.
-
-// Configures the Prisma client generator.
-// @generator client
-// @provider "prisma-client-js" - Specifies the provider for the Prisma client.
-// @previewFeatures ["prismaSchemaFolder"] - Includes preview features for Prisma schema folder support.
 generator client {
   provider = "prisma-client-js"
 }
 
-// Defines the datasource configuration for Prisma.
-// @datasource db
-// @provider "postgres" - Specifies PostgreSQL as the database provider.
-// @url env("DATABASE_URL") - Uses the environment variable `DATABASE_URL` to provide the connection string to the database.
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  password   String
+  createdAt  DateTime    @default(now())
   authTokens AuthToken[]
+  File       File[]
 
   @@map("users")
 }
 
 model AuthToken {
   id           Int      @id @default(autoincrement())
-  user         User     @relation(fields: [userId], references: [id])
   userId       Int
   refreshToken String
   expiresAt    DateTime
   createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@map("authtokens")
+}
+
+model File {
+  id               Int        @id @default(autoincrement())
+  userId           Int
+  originalFilename String
+  storagePath      String
+  title            String?
+  description      String?
+  status           FileStatus @default(UPLOADED)
+  extractedData    String?
+  uploadedAt       DateTime   @default(now())
+  user             User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobs             Job[]
+
+  @@map("files")
+}
+
+model Job {
+  id           Int       @id @default(autoincrement())
+  fileId       Int
+  jobType      String
+  status       JobStatus
+  errorMessage String?
+  startedAt    DateTime?
+  completedAt  DateTime?
+  file         File      @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@map("jobs")
+}
+
+enum FileStatus {
+  UPLOADED
+  PROCESSING
+  PROCESSED
+  FAILED
+}
+
+enum JobStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
 }

@@ -17,7 +17,7 @@ export default registerAs('app', () => ({
   port: process.env.PORT,
   csvImportQueueMax: process.env.CSV_IMPORT_QUEUE_MAX,
   csvImportQueueDuration: process.env.CSV_IMPORT_QUEUE_DURATION,
-  s3Bucket: process.env.S3_BUCKET || '',
+  s3Bucket: process.env.FILEBASE_BUCKET || '',
   aws: {
     accessToken: process.env.AWS_ACCESS_TOKEN || '',
     accessSecretToken: process.env.AWS_ACCESS_SECRET_TOKEN || '',
