@@ -1,0 +1,46 @@
+// Prisma Schema File
+// @module schema
+// Defines the Prisma schema configuration for the application.
+// This file includes the generator and datasource configurations necessary for Prisma to interact with the database.
+// @see https://pris.ly/d/prisma-schema for Prisma Schema Documentation
+// @see https://pris.ly/cli/accelerate-init for Prisma Accelerate for performance and scalability improvements.
+
+// Configures the Prisma client generator.
+// @generator client
+// @provider "prisma-client-js" - Specifies the provider for the Prisma client.
+// @previewFeatures ["prismaSchemaFolder"] - Includes preview features for Prisma schema folder support.
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Defines the datasource configuration for Prisma.
+// @datasource db
+// @provider "postgres" - Specifies PostgreSQL as the database provider.
+// @url env("DATABASE_URL") - Uses the environment variable `DATABASE_URL` to provide the connection string to the database.
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  authTokens AuthToken[]
+
+  @@map("users")
+}
+
+model AuthToken {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       Int
+  refreshToken String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@map("authtokens")
+}

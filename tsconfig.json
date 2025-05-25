@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // Set the JavaScript language version
+    "module": "commonjs", // Specify module code generation
+    "lib": ["es2021"], // Specify library files to be included
+    "sourceMap": true, // Generates corresponding '.map' file
+    "outDir": "dist", // Redirect output structure to the directory
+    "baseUrl": "./src",
+    "moduleResolution": "node", // Use Node.js-style module resolution
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file,
+    "paths": {
+      "~/*": ["*"],
+      "*": ["@types/*"]
+    },
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "declaration": true,
+    "strictNullChecks": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "incremental": true,
+    "resolveJsonModule": true,
+    "noImplicitThis": true
+  },
+  "include": ["src/**/*.ts"], // Include all TypeScript files in the src directory
+  "exclude": ["node_modules", "dist"] // Exclude node_modules and dist directory
+}

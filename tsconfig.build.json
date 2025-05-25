@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json", // Extend the development configuration
+  "compilerOptions": {
+    "sourceMap": false, // Disable source maps for production
+    "outDir": "dist", // Output directory remains the same
+    "removeComments": true // Remove comments in the output files
+  },
+  "include": ["src/**/*.ts"], // Include all TypeScript files in the src directory
+  "exclude": ["node_modules", "dist"] // Exclude node_modules and dist directory
+}
